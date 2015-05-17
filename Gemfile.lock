@@ -3,10 +3,12 @@ GEM
   specs:
     gimuby (0.7.4)
     gnuplot (2.6.2)
+    gosu (0.8.7.2)
     heatmap (0.1.1)
     narray (0.6.1.1)
     rb-gsl (1.16.0.4)
       narray (>= 0.5.9)
+    rubysdl (2.2.0)
 
 PLATFORMS
   ruby
@@ -14,5 +16,7 @@ PLATFORMS
 DEPENDENCIES
   gimuby
   gnuplot
+  gosu
   heatmap
   rb-gsl
+  rubysdl

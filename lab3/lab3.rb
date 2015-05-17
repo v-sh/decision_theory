@@ -35,7 +35,7 @@ Gnuplot.open do |gp|
     plot.xlabel "x"
     plot.ylabel "y"
     plot.zlabel 'z'
-    
+
     x = (0..50).step(5).collect { |v| v.to_f }
     y = x.collect { |v| v ** 2 }
     z = x.map {|x| Math.sqrt x}
@@ -88,7 +88,7 @@ class DBSCAN
         expand_cluster(p, neighbours, @clusters.last)
       end
     end
-  
+
     [@clusters, @noise]
   end
 
@@ -126,7 +126,7 @@ Gnuplot.open do |gp|
     plot.xlabel "x"
     plot.ylabel "y"
     plot.zlabel 'z'
-    
+
     x = (0..50).step(5).collect { |v| v.to_f }
     y = x.collect { |v| v ** 2 }
     z = x.map {|x| Math.sqrt x}
@@ -139,3 +139,52 @@ Gnuplot.open do |gp|
     end
   end
 end
+
+purity = result.map{|k| [class1, class2, class3].map{|c| (k.to_set & c.to_set).count }.max }.reduce(:+) / db.count.to_f
+
+puts "purity = #{purity}"
+
+tp = 0
+fp = 0
+tn = 0
+fn = 0
+
+classes = [class1, class2, class3]
+
+(0...db.count).each do |p1i|
+  (p1i...db.count).each do |p2i|
+    p1 = db[p1i]
+    p2 = db[p2i]
+    c1 = classes.find_index{|c| c.include? p1}
+    c2 = classes.find_index{|c| c.include? p2}
+
+    k1 = result.find_index{|c| c.include? p1}
+    k2 = result.find_index{|c| c.include? p2}
+
+    if c1 == c2
+      if k1 == k2
+        tp += 1
+      else
+        fn += 1
+      end
+    else
+      if k1 == k2
+        fp += 1
+      else
+        tn += 1
+      end
+    end
+  end
+end
+
+p = tp.to_f / (tp + fp)
+
+r = tp.to_f / (tp + fn)
+
+puts "precission = #{p}"
+
+puts "recall = #{r}"
+
+f1 = 2 * p * r / (p + r)
+
+puts "f1 = #{f1}"

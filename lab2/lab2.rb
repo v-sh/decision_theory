@@ -5,7 +5,7 @@
 criteria_weights = [5.0, 3.0, 2.0, 1.0]
 
 agree_level = 0.5
-disagree_level = 0.8
+disagree_level = 0.5
 
 results_ranges = [100.0, 100.0, 100.0, 100.0]
 
